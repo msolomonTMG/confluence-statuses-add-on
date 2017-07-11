@@ -88,6 +88,7 @@ module.exports = function (app, addon) {
         if (status) {
           switch(status) {
             case 'On Target':
+            case 'Done':
               style = 'success';
               break;
             case 'Delayed':
