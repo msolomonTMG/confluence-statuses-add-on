@@ -83,13 +83,34 @@ module.exports = function (app, addon) {
 
     function renderMacro(req, res) {
         var status = req.param('status');
+        var style;
+
         if (status) {
+          switch(status) {
+            case 'On Target':
+              style = 'success';
+              break;
+            case 'Delayed':
+              style = 'current';
+              break;
+            case 'At Risk':
+              style = 'error';
+              break;
+            case 'Planning':
+              style = 'complete';
+              break;
+            default:
+              style = 'subtle';
+              break;
+          }
           res.render('macro/macro-view', {
-            status: status
+            status: status,
+            style: style
           })
         } else {
           res.render('macro/macro-view', {
-            status: 'no status set'
+            status: 'no status set',
+            style: style
           })
         }
     }
