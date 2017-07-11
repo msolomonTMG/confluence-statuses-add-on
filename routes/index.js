@@ -82,53 +82,16 @@ module.exports = function (app, addon) {
     }
 
     function renderMacro(req, res) {
-        var requestVersion = req.param('status');
-        if (requestVersion) {
-          getFixVersionById(requestVersion).then(version => {
-            res.render('macro/macro-view', {
-                //versionDate: version
-                status: version
-            });
-          }).catch(err => {
-            res.render('macro/macro-view', {
-              status: {
-                userReleaseDate: 'no jira version'
-              }
-            })
+        var status = req.param('status');
+        if (status) {
+          res.render('macro/macro-view', {
+            status: status
           })
         } else {
           res.render('macro/macro-view', {
-            status: {
-              userReleaseDate: 'no jira version'
-            }
+            status: 'no status set'
           })
         }
-        console.log('PARAMS')
-        console.log(req.params)
-        console.log('RENDERING MACRO')
-        var requestSport = req.param('status');
-        console.log('SPORT SENT BY CONFLUENCE')
-        console.log(requestSport)
-        var sport = _.find(sports, function (_sport) {
-           return requestSport === _sport.id;
-        });
-        console.log('SPORT FOUND BY US')
-        console.log(status)
-
-        if(!status) {
-           status = sports[5];
-        }
-
-        console.log('SPORT FALLBACK BY US')
-        console.log(status)
-
-        // var requestVersion = req.param('version');
-        // var version
-
-        // res.render('macro/macro-view', {
-        //     //versionDate: version
-        //     sport: sport
-        // });
     }
 
     app.get('/macro', addon.authenticate(), function (req, res) {
