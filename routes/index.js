@@ -26,6 +26,13 @@ module.exports = function (app, addon) {
                 { id: 'football', name: 'Football', icon: iconPath + 'football.png'},
                 { id: 'golf', name: 'Golf', icon: iconPath + 'golf.png'},
                 { id: 'tennis', name: 'Tennis', icon: iconPath + 'tennis.png'}
+            ],
+            statuses = [
+              { id: 'onTarget', name: 'On Target' },
+              { id: 'planning', name: 'Planning' },
+              { id: 'delayed', name: 'Delayed' },
+              { id: 'atRisk', name: 'At Risk' },
+              { id: 'onHoled', name: 'On Hold' }
             ];
 
     function getFixVersionsByProject(project) {
@@ -135,15 +142,19 @@ module.exports = function (app, addon) {
     app.get('/editor', addon.authenticate(), function (req, res) {
         // Rendering a template is easy. `render()` takes two params: name of template and a
         // json object to pass the context in.
-
-        //TODO: make a variable req.param('project')
-        getFixVersionsByProject('ADS').then(versions => {
-          res.render('macro/macro-editor', {
-              baseUrl: res.locals.hostBaseUrl,
-              sports: sports,
-              versions: versions
-          });
+        res.render('macro/macro-editor', {
+          baseUrl: res.locals.hostBaseUrl,
+          statuses: statuses
         })
+
+        // //TODO: make a variable req.param('project')
+        // getFixVersionsByProject('ADS').then(versions => {
+        //   res.render('macro/macro-editor', {
+        //       baseUrl: res.locals.hostBaseUrl,
+        //       sports: sports,
+        //       versions: versions
+        //   });
+        // })
     });
 
     // gets versions by project keys async
