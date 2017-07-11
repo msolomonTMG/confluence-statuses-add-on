@@ -59,7 +59,7 @@
     AP.require(["confluence", "dialog"], function (confluence, dialog) {
 
         function onSubmit() {
-            var status = document.getElementById("status-single-select").val(),
+            var status = document.getElementById("status-single-select").value,
               macroParams = {
                 status: status
               }
