@@ -29,7 +29,7 @@
                 "description": {
                     "value": "Select a project status from a dropdown"
                 },
-                "key": "deploy-date",
+                "key": "project-status",
                 "url": "/macro-page?pageId={page.id}&userId={user.id}&spaceKey={space.key}&status={status}",
                 "categories": ["development"],
                 "documentation": {
@@ -44,7 +44,7 @@
                     "height": 16,
                     "width": 16
                 },
-                "alias": "deploy-date",
+                "alias": "project-status",
                 "editor": {
                     "url": "/editor",
                     "editTitle": {
