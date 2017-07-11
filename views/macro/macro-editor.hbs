@@ -24,19 +24,19 @@
     <div class="aui-page-panel">
         <div class="aui-page-panel-inner">
           <form class="aui">
-              <aui-label for="async-project-single-select">Search for JIRA Project:</aui-label>
+              <aui-label for="async-project-single-select">Select a Project Status:</aui-label>
               <p>
                   <aui-select
-                      id="async-project-single-select"
+                      id="status-single-select"
                       name="project"
                       placeholder="Select a status"
                   >
-                    <aui-option>Planning</aui-option>
-                    <aui-option>On Target</aui-option>
-                    <aui-option>Delayed</aui-option>
-                    <aui-option>At Risk</aui-option>
-                    <aui-option>On Hold</aui-option>
-                    <aui-option>Done</aui-option>
+                    <aui-option value="planning">Planning</aui-option>
+                    <aui-option value="onTarget">On Target</aui-option>
+                    <aui-option value="delayed">Delayed</aui-option>
+                    <aui-option value="atRisk">At Risk</aui-option>
+                    <aui-option value="onHold">On Hold</aui-option>
+                    <aui-option value="done">Done</aui-option>
                   </aui-select>
               </p>
           </form>
@@ -94,10 +94,14 @@
       AP.require(["confluence", "dialog"], function (confluence, dialog) {
 
           function onSubmit() {
-              var sport = $("table.aui .sport.active").data('sport'),
-                      macroParams = {
-                        sport: sport
-                      };
+              var status = document.getElementById("status-single-select").val(),
+                macroParams = {
+                  status: status
+                }
+              // var sport = $("table.aui .sport.active").data('sport'),
+              //         macroParams = {
+              //           sport: sport
+              //         };
               console.log('MACRO PARAMS')
               console.log(macroParams)
               confluence.saveMacro(macroParams);
