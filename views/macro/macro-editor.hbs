@@ -40,9 +40,7 @@
                   </aui-select>
               </p>
           </form>
-            <table id="version-table" class="aui aui-table-interactive">
 
-            </table>
         </div>
     </div>
 </section>
@@ -56,68 +54,29 @@
 
     // set select value based on current macro param value
     var status = getQueryParam("status");
-    $("table.aui tr.status[data-status=" + status + "]").addClass('active');
 
-    var versionBaseSrc = "{{localBaseUrl}}/search/version/";
+    // save out newly selected macro param value on submit
+    AP.require(["confluence", "dialog"], function (confluence, dialog) {
 
-    $('#async-project-single-select').change(function(e) {
-      /*
-       * sometimes this change method gets called twice
-       * instead of figuring out why, i do a ratchet check instead
-       * to make sure that the value was in fact changed
-      */
-      if(this.value==this.oldvalue)return;
-      this.oldvalue=this.value;
+        function onSubmit() {
+            var status = document.getElementById("status-single-select").val(),
+              macroParams = {
+                status: status
+              }
+            // var sport = $("table.aui .sport.active").data('sport'),
+            //         macroParams = {
+            //           sport: sport
+            //         };
+            console.log('MACRO PARAMS')
+            console.log(macroParams)
+            confluence.saveMacro(macroParams);
+            confluence.closeMacroEditor();
+            return true;
+        }
 
-      let projectKey = $('#async-project-single-select').val()
-      $('#version-table').empty()
-      $.get('{{localBaseUrl}}/versions/' + projectKey, function(versions) {
-        console.log(versions)
-        versions.forEach((version, index) => {
-          $('#version-table').append(`
-            <tr class='status' data-status='${version.id}'>
-                <td>${version.name}</td>
-                <td>${version.userReleaseDate}</td>
-                <td>${version.status}</td>
-            </tr>`)
-
-          // once we are done appending all the rows, init the table
-          if (index + 1 === versions.length) {
-            initTable();
-          }
-        })
-      })
+        dialog.getButton("submit").bind(onSubmit);
     });
 
-    function initTable() {
-      // save out newly selected macro param value on submit
-      AP.require(["confluence", "dialog"], function (confluence, dialog) {
-
-          function onSubmit() {
-              var status = document.getElementById("status-single-select").val(),
-                macroParams = {
-                  status: status
-                }
-              // var sport = $("table.aui .sport.active").data('sport'),
-              //         macroParams = {
-              //           sport: sport
-              //         };
-              console.log('MACRO PARAMS')
-              console.log(macroParams)
-              confluence.saveMacro(macroParams);
-              confluence.closeMacroEditor();
-              return true;
-          }
-
-          $("tr.sport").click(function () {
-              $("table.aui .active").removeClass("active");
-              $(this).closest("tr.sport").addClass('active');
-              onSubmit();
-          });
-
-          dialog.getButton("submit").bind(onSubmit);
-      });
-    }
 </script>
 </body>
 </html>
