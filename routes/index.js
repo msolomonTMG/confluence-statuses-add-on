@@ -101,6 +101,7 @@ module.exports = function (app, addon) {
               break;
             case 'Done':
               style = 'subtle aui-lozenge-success';
+              break;
             default:
               style = 'subtle';
               break;
